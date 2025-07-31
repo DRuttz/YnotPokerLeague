@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ynot Poker League</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .active {
+      font-weight: bold;
+      text-decoration: underline;
+      color: #2563eb;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('/YnotPokerLeague/components/footer.html')
+        .then(res => res.text())
+        .then(data => document.getElementById('footer').innerHTML = data);
+
+      function onScroll() {
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('nav a');
+
+        let current = "";
+        sections.forEach(section => {
+          const top = section.offsetTop - 80;
+          if (pageYOffset >= top) {
+            current = section.getAttribute("id");
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === `#${current}`) {
+            link.classList.add("active");
+          }
+        });
+      }
+      window.addEventListener("scroll", onScroll);
+    });
+
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+  </script>
+</head>
+<body class="bg-gray-100 text-gray-800 flex flex-col min-h-screen">
+  <nav class="bg-white shadow sticky top-0 z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <div class="text-xl font-bold">Ynot Poker League</div>
+        <div class="hidden md:flex items-center space-x-4">
+          <a href="#home" class="text-blue-600 hover:underline">Home</a>
+          <a href="#league" class="text-blue-600 hover:underline">League Info</a>
+          <a href="#rental" class="text-blue-600 hover:underline">Table Rental</a>
+          <a href="#booking" class="text-blue-600 hover:underline">Book Now</a>
+        </div>
+        <div class="md:hidden flex items-center">
+          <button onclick="toggleMenu()" class="text-blue-600 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2">
+      <a href="#home" class="block text-blue-600 hover:underline">Home</a>
+      <a href="#league" class="block text-blue-600 hover:underline">League Info</a>
+      <a href="#rental" class="block text-blue-600 hover:underline">Table Rental</a>
+      <a href="#booking" class="block text-blue-600 hover:underline">Book Now</a>
+    </div>
+  </nav>
+
+  <main class="flex-grow">
+    <section id="home" class="text-center py-10 bg-white shadow-md">
+      <h1 class="text-4xl font-bold mb-2">Ynot Poker League</h1>
+      <p class="text-lg text-gray-600">Join weekly tournaments or rent professional poker setups for your own event.</p>
+    </section>
+
+    <section id="league" class="p-6 bg-gray-50 mt-6">
+      <h2 class="text-3xl font-bold mb-4">League Information</h2>
+      <p class="text-lg mb-4">We host Texas Hold'em tournaments every Friday night. Points accumulate across the season with prizes for top performers.</p>
+      <ul class="list-disc pl-5 text-gray-700">
+        <li>£10 buy-in per event</li>
+        <li>10-week seasons</li>
+        <li>Professional dealers and chips</li>
+        <li>Live leaderboards and rankings</li>
+      </ul>
+    </section>
+
+    <section id="rental" class="p-6 bg-white mt-6">
+      <h2 class="text-3xl font-bold mb-4">Portable Poker Table Rental</h2>
+      <p class="mb-4">Host your own game night or private event with our rental service. Each table set includes:</p>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-gray-100 p-4 rounded shadow">
+          <h3 class="text-xl font-semibold mb-2">What's Included:</h3>
+          <ul class="list-disc pl-5">
+            <li>Folding poker table (8-10 seats)</li>
+            <li>Dealer button, chips & cards</li>
+            <li>Optional delivery and setup</li>
+          </ul>
+        </div>
+        <div class="bg-gray-100 p-4 rounded shadow">
+          <h3 class="text-xl font-semibold mb-2">Rental Rates:</h3>
+          <ul class="list-disc pl-5">
+            <li>£40 per table (24hr rental)</li>
+            <li>+£15 delivery & pickup</li>
+            <li>Discounts for multiple tables</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="booking" class="p-6 bg-gray-50 mt-6">
+      <h2 class="text-3xl font-bold mb-4 text-center">Book a Table or League Slot</h2>
+      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="max-w-xl mx-auto space-y-4">
+        <input type="text" name="name" required placeholder="Your Name" class="w-full p-2 border rounded" />
+        <input type="email" name="email" required placeholder="Your Email" class="w-full p-2 border rounded" />
+        <input type="tel" name="phone" placeholder="Your Phone Number" class="w-full p-2 border rounded" />
+        <input type="date" name="date" required class="w-full p-2 border rounded" />
+        <select name="service" required class="w-full p-2 border rounded">
+          <option value="">Select Service</option>
+          <option value="league">League Entry</option>
+          <option value="rental">Table Rental</option>
+        </select>
+        <textarea name="message" rows="4" placeholder="Additional Details" class="w-full p-2 border rounded"></textarea>
+        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded w-full">Submit Booking</button>
+      </form>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+</body>
+</html>
